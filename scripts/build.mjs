@@ -1,16 +1,17 @@
-import {readdir,mkdir,copyFile,readFile,writeFile,rm} from 'node:fs/promises';
+import {readdir,mkdir,copyFile,readFile,writeFile} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 import path from 'node:path';
 const root=fileURLToPath(new URL('../',import.meta.url));
 const out=path.join(root,'dist');
 const files=(await readdir(root)).filter(f=>/\.(html|css|js|svg|txt)$/.test(f));
-let origin;
-if(process.env.SITE_URL){origin=new URL(process.env.SITE_URL);if(!['https:','http:'].includes(origin.protocol)||origin.pathname!=='/'||origin.search||origin.hash||origin.username||origin.password)throw new Error('SITE_URL must be an origin without a path.');}
+const {homepage}=JSON.parse(await readFile(path.join(root,'package.json'),'utf8'));
+// Use the confirmed production domain when the build variable is omitted.
+const origin=new URL(process.env.SITE_URL||homepage);
+if(!['https:','http:'].includes(origin.protocol)||origin.pathname!=='/'||origin.search||origin.hash||origin.username||origin.password)throw new Error('SITE_URL must be an origin without a path.');
 await mkdir(out,{recursive:true});
 for(const f of files)await copyFile(path.join(root,f),path.join(out,f));
 const pages=files.filter(f=>f.endsWith('.html')&&f!=='404.html');
 const esc=s=>s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('"','&quot;');
-if(origin){
 for(const f of pages){
   const url=new URL(f==='index.html'?'/':f,origin).href;
   let html=await readFile(path.join(out,f),'utf8');
@@ -46,5 +47,4 @@ await writeFile(path.join(out,'sitemap.xml'),`<?xml version="1.0" encoding="UTF-
 await writeFile(path.join(out,'robots.txt'),`User-agent: *\nAllow: /\nSitemap: ${new URL('/sitemap.xml',origin).href}\n`);
 const llms=await readFile(path.join(out,'llms.txt'),'utf8');
 await writeFile(path.join(out,'llms.txt'),llms.replace(/\]\(\.\/([^)]*)\)/g,(_,file)=>`](${new URL(file,origin).href})`));
-}else await rm(path.join(out,'sitemap.xml'),{force:true});
-console.log(`Built ${files.length} assets${origin?' with sitemap and canonical URLs':''}.`);
+console.log(`Built ${files.length + 1} assets with sitemap and canonical URLs for ${origin.origin}.`);
