@@ -1,0 +1,22 @@
+# Numberlune
+
+> Free English numerology calculators and original reflection guides. Calculations are deterministic and run locally in the browser. Interpretations are symbolic entertainment, not validated personality measurements or predictions.
+
+## Tools and conventions
+
+- [Reading room](./index.html#reading): life path, personal year, Pythagorean name number and two-life-path comparison; no account or paid API.
+- [Calculation method](./method.html): reduce birth month/day/year separately, keeping 11/22/33, then combine. Direct digit addition can differ. Personal years use January–December and reduce to 1–9.
+- [Name chart](./name-numerology.html): repeating A–Z 1–9 values, normalization and transliteration limitations.
+- [Personal years](./personal-year.html): formula, calendar-year convention and nine reflection themes.
+- [Compatibility](./compatibility.html): independent life paths with conversation prompts; no success percentage.
+- [Number library](./index.html#library): guides for 1–9, 11, 22 and 33, with worked examples and weekly exercises.
+
+## Attribution and context
+
+- [About Numberlune](./about.html): publishing identity and purpose.
+- [Editorial policy](./editorial-policy.html): AI-assisted preparation, deterministic checks and interpretation limits. No independent expert review is claimed.
+- [Sources](./sources.html): definitions, research context and the specific purpose of each external reference. References do not endorse or validate the readings.
+- [Privacy](./privacy.html): browser processing, card exports, copied inputs, Ahrefs usage analytics and hosting.
+- [Terms](./terms.html): entertainment and personal reflection; not professional advice.
+
+Content revision: November 6, 2026. A reproducible number confirms arithmetic under a published convention, not predictive accuracy.
